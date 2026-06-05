@@ -22,7 +22,7 @@ float vx, vy; //Target velocity
 int score, lives;
 float thickness;
 float sliderX;
-
+int highscore = 0;
 //sound variables
 Minim minim;
 AudioPlayer theme, success, gameover;
@@ -37,7 +37,7 @@ void setup() {
   size (900, 900);
   mode = INTRO;
   sliderX = 450;
-  
+
   //target initialization
   x = width/2;
   y = height/2;
@@ -46,13 +46,12 @@ void setup() {
   vy = random(-5, 5);
   score = 0;
   lives = 3;
-  
+
   //minim
   minim = new Minim(this);
   theme = minim.loadFile("MUSIC.mp3");
   success = minim.loadFile("SUCCESS.wav");
   gameover = minim.loadFile("FAILURE.wav");
-  
 }
 
 void draw() {
@@ -74,15 +73,35 @@ void draw() {
 void tactile(int x, int y, int w, int h) {
 
   if (mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h) {
-    stroke(white);   
+    stroke(milk);
   } else {
-    stroke(black);  
+    stroke(black);
   }
 }
 
 void slider() {
-  if (mouseX > 300 && mouseX < 500 && mouseY > 830 && mouseY < 870) {
+
+  if (mousePressed && mouseY > 825 && mouseY < 875) {
     sliderX = mouseX;
+
+    if (sliderX < 200) {
+      sliderX = 200;
+    }
+
+    if (sliderX > 700) {
+      sliderX = 700;
+    }
   }
-  thickness = map(sliderX, 300, 500, 0, 10);
+
+  d = map(sliderX, 200, 700, 25, 200);
+}
+
+void reset(){
+  x = width/2;
+  y = height/2;
+  d = 125;
+  vx = random(-5, 5);
+  vy = random(-5, 5);
+  lives = 3;
+  score = 0;
 }
